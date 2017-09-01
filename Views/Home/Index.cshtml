@@ -1,0 +1,47 @@
+﻿@model IEnumerable<autocomplete.Models.Pessoa>
+
+@{
+    Layout = null;
+}
+
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+
+
+<div style="font-family: Arial">
+    
+    @using (@Html.BeginForm())
+    {
+        <b>Nome</b>
+        @Html.TextBox("txtPesquisa", null, new { id = "txtPesquisa" })
+        <input type="submit" value="Pesquisar"/>
+    }
+
+    <table border="1">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+
+<script type="text/javascript">
+    $(function() {
+        $('#txtPesquisa').autocomplete({
+            source: '@Url.Action("CarregarNomes")'
+        })
+    })
+</script>
