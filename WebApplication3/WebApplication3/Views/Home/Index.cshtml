@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebApplication3.Models.Pessoa>
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Index";
+}
+<div>
+    @using (@Html.BeginForm())
+    {
+        <label> Nome: </label>
+        @Html.TextBox("searchTerm", null, new { Id = "txtBusca" })
+        <input type="submit" value="Buscar" />
+    }
+</div>
+<br />
+
+<div style="font-family: Arial">
+    <table class="table table-bordered table-responsive">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sobrenome)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sobrenome)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+    $('#txtBusca').autocomplete({
+        source: '@Url.Action("PegarPessoas")'
+    })
+
+</script>

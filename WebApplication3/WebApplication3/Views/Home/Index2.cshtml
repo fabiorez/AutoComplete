@@ -1,0 +1,90 @@
+﻿@model IEnumerable<WebApplication3.Models.Pessoa>
+
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index2</title>
+</head>
+<body>
+
+    <div>
+        @using (@Html.BeginForm())
+        {
+            <label> Busca: </label>
+            @Html.TextBox("searchTerm", null, new { Id = "txtBusca" })
+            <input type="submit" value="Buscar" />
+        }
+    </div>
+
+    <div>
+        <input type="text" id="txtId" value="" placeholder="aqui fica o id" />
+        <input type="text" id="txtNome" value="" placeholder="aqui fica o nome" />
+    </div>
+
+    <div style="font-family: Arial">
+        <table class="table table-bordered table-responsive">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sobrenome)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sobrenome)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+</body>
+</html>
+
+<script src="~/Scripts/jquery.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+    $("#txtBusca").autocomplete({
+            minLength: 0,
+            source: '@Url.Action("GetPersons")',
+            focus: function(event, ui) {
+                $("#txtBusca").val(ui.item.Nome);
+                return false;
+            },
+            select: function(event, ui) {
+                $("#txtBusca").val( ui.item.Nome);
+                $("#txtId").val(ui.item.Id);
+                $("#txtNome").val(ui.item.Nome);
+                return false;
+            }
+        })
+        .autocomplete( "instance" )._renderItem = function( ul, item ) {
+            return $( "<li>" )
+                .append( "<div>" + item.Id + " - " + item.Nome + "</div>" )
+                .appendTo( ul );
+        }
+</script>
+
